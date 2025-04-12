@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   	<head>
+   		<title>Wishlist | ShipShop</title>
+    	<head th:replace="~{head :: main}" ></head>
+	</head>
+	<body>
+		<div sec:authorize="!isAuthenticated()" th:replace="~{header :: client_default_header_guest}"></div>
+		<div sec:authorize="hasAnyRole('USER')" th:replace="~{header :: client_default_header}"></div>
+		<div sec:authorize="hasAnyRole('ADMIN')" th:replace="~{header :: client_default_header_admin}"></div>
+		<!-- HEADER -->
+		 <div class="container2">
+	  		<!-- <div class="wrapper">
+				<h2>My Wishlist <span></span></h2>
+			</div> -->
+			
+			<div th:if="${!wishlistItems.empty}" style="padding: 0px 45px;">
+				<div class="index-headingDiv">
+					<span class="index-heading">My Wishlist </span>
+					<span class="index-count index-heading"><a th:text="${count}" th:remove="tag"></a> item<a th:if="${count > 1}" th:remove="tag">s</a></span>
+				</div>
+				
+				<div>
+				  <ul class="index-wishListContainer">
+				    <div th:each="wishlist, prop : ${wishlistItems}" th:id="${wishlist.product.productCode}" class="itemcard-itemCard">
+				      <div class="itemcard-itemImageDiv">
+				        <a th:href="${'/product/' + wishlist.product.productCode}" target="_blank">
+				          <picture draggable="false" class="img-responsive">
+				            <div th:if="${wishlist.product.productImages.size() > 0}" class="product-preview" th:each="image : ${wishlist.product.productImages}">
+								<source th:srcset="${image.path}" type="image/webp">
+								<img th:src="${image.path}" alt="">
+							</div>
+							
+							<div th:if="${wishlist.product.productImages.size() == 0}" class="product-preview">
+								<source srcset="/img/no-image.jpg" type="image/webp">
+								<img draggable="false" class="itemcard-itemImage" src="/img/no-image.jpg" alt="">
+							</div>
+				          </picture>
+				        </a>
+				        <div class="itemcard-removeIcon"><span class="myntraweb-sprite itemcard-removeMark sprites-remove"></span></div>
+				      </div>
+				      
+				      <div class="itemcard-itemActions">
+				        <div class="itemdetails-itemDetails">
+				          <p class="itemdetails-itemDetailsLabel" th:text="${wishlist.product.productName}"></p>
+				          <p class="itemdetails-itemDetailsDescription"></p>
+				          <div class="itemdetails-itemPricing">
+				            <span class="itemdetails-boldFont" th:text="${'₹' + #numbers.formatDecimal((wishlist.product.mrp - (wishlist.product.mrp * wishlist.product.discount/100)), 0, 0)}"></span>
+				            <span class="itemdetails-strike" th:if="${wishlist.product.discount > 0}" th:text="${'₹' + #numbers.formatDecimal(wishlist.product.mrp, 0, 0)}">
+				            </span>
+				            <span class="itemdetails-discountPercent" th:if="${wishlist.product.discount > 0}" th:text="${'(' + #numbers.formatDecimal(wishlist.product.discount, 0, 0) + '% OFF)'}">
+				            </span>
+				          </div>
+				        </div>
+				        <div class="itemcard-actionDiv"><span class="itemcard-flex"><a class="itemcard-moveToBag itemcard-boldFont" href="/user/cart">MOVE TO BAG</a></span></div>
+				      </div>
+				    </div>
+				  </ul>
+				</div>
+			</div>
+			
+			<div th:if="${wishlistItems.empty}" class="wishlistEmpty-container">
+				<div class="wishlistEmpty-heading">YOUR WISHLIST IS EMPTY</div>
+				<div class="wishlistEmpty-info">Add items that you like to your wishlist. Review them anytime and easily move them to the bag.</div>
+			
+			</div>
+			
+		</div>
+		<div th:replace="~{footer :: client_default_footer}"></div>
+	</body>
+</html>

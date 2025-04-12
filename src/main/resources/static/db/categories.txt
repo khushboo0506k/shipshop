@@ -1,0 +1,18 @@
+1;Mobile
+2;Computer
+3;TV
+4;Appliances
+5;Electronics
+6;Men's Fashion
+7;Women's Fashion
+8;Home
+9;Furniture
+10;Kitchen
+11;Beauty
+12;Toys
+13;Kid's Fashion
+14;Grocery
+15;Car
+16;Motorbike
+17;Industrial
+18;Books

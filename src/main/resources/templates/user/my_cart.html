@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   	<head>
+   		<title>Cart | ShipShop</title>
+    	<head th:replace="~{head :: main}" ></head>
+	</head>
+	<body>
+		<div sec:authorize="!isAuthenticated()" th:replace="~{header :: client_default_header_guest}"></div>
+		<div sec:authorize="hasAnyRole('USER')" th:replace="~{header :: client_default_header}"></div>
+		<div sec:authorize="hasAnyRole('ADMIN')" th:replace="~{header :: client_default_header_admin}"></div>
+		<!-- HEADER -->
+		 <div class="container2">
+			<div th:if="${!cartItems.empty}" style="padding:45px;">
+				<div class="desktop-base-cartLayout">
+				  <div class="itemBlock-base-leftBlock">
+				    <div id="cartItemsList">
+				      <div class="itemContainer-base-itemMargin" th:each="cart : ${cartItems}" th:id="${cart.product.productCode}">
+				        <div>
+				          <div class="item-base-item">
+				            <div></div>
+				            <div class="itemContainer-base-item ">
+				              <div class="itemContainer-base-itemLeft">
+				                <a th:href="${'/product/' + cart.product.productCode}">
+				                  <div class="" style="height: 148px; width: 111px;">
+				                    <picture class="image-base-imgResponsive" style="width: 100%;">
+							            <div th:if="${cart.product.productImages.size() > 0}" class="product-preview" th:each="image : ${cart.product.productImages}">
+											<source th:srcset="${image.path}" type="image/webp">
+											<img th:src="${image.path}" class="image-base-imgResponsive" alt="image" style="width: 100%;">
+										</div>
+										
+										<div th:if="${cart.product.productImages.size() == 0}" class="product-preview">
+											<source srcset="/img/no-image.jpg" type="image/webp">
+											<img src="/img/no-image.jpg" class="image-base-imgResponsive" alt="image" style="width: 100%; height:100%">
+										</div>
+							          </picture>
+				                  </div>
+				                </a>
+				              </div>
+				              <div class="itemContainer-base-itemRight">
+				                <div class="itemContainer-base-details">
+				                  <div>
+				                    <div class="itemContainer-base-brand" th:text="${cart.product.brand.name}"></div>
+				                    <a class="itemContainer-base-itemLink" th:href="${'/product/' + cart.product.productCode}" th:text="${cart.product.productName}"></a>
+				                  </div>
+				                  <div class="itemComponents-base-sellerContainer">
+				                    <div class="itemComponents-base-sellerData" th:text="${'Sold by: ' + cart.product.brand.name}">Seller name</div>
+				                  </div>
+				                  <div class="itemContainer-base-sizeAndQtyContainer">
+				                    <div class="itemContainer-base-sizeAndQty">
+				                      <div class="itemComponents-base-quantity">
+				                        <span class="" th:text="${'Qty: ' + cart.quantity}"></span>
+				                      </div>
+				                    </div>
+				                  </div>
+				                  <div class="itemContainer-base-price">
+				                    <div class="itemComponents-base-price itemComponents-base-bold" th:text="${'₹' + #numbers.formatDecimal((cart.product.mrp - (cart.product.mrp * cart.product.discount/100)), 0, 0)}">
+				                    </div>
+				                    <div class="itemContainer-base-discountBlock">
+				                      <span class="itemComponents-base-strikedAmount">
+				                        <span class="itemComponents-base-price itemComponents-base-strike itemContainer-base-strikedAmount"
+				                       		th:if="${cart.product.discount > 0}" th:text="${'₹' + #numbers.formatDecimal(cart.product.mrp, 0, 0)}">
+				                        </span>
+				                      </span>
+				                      <span class="itemComponents-base-itemDiscount" th:if="${cart.product.discount > 0}" th:text="${#numbers.formatDecimal(cart.product.discount, 0, 0) + '% OFF'}"></span>
+				                    </div>
+				                    
+				                  </div>
+				                </div>
+				              </div>
+				              <div>
+				                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="itemContainer-base-closeIcon">
+				                  <path fill="#000" fill-rule="evenodd" d="M9.031 8l6.756-6.756a.731.731 0 0 0 0-1.031.732.732 0 0 0-1.031 0L8 6.969 1.244.213a.732.732 0 0 0-1.031 0 .731.731 0 0 0 0 1.03L6.969 8 .213 14.756a.731.731 0 0 0 0 1.031.732.732 0 0 0 1.031 0L8 9.031l6.756 6.756a.732.732 0 0 0 1.031 0 .731.731 0 0 0 0-1.03L9.031 8z"></path>
+				                </svg>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+				    <a href="/user/wishlist">
+				      <div>
+				        <div class="addToWishlist-base-wishlistBlock">
+				          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+				            <path fill="#000" fill-rule="evenodd" d="M10.993 14.62a.067.067 0 0 1-.103.058l-4.571-2.77a.638.638 0 0 0-.64 0l-4.57 2.77a.067.067 0 0 1-.102-.058V1.133A.13.13 0 0 1 1.139 1H3.5V3.5c0 .298.18.543.486.543s.515-.245.515-.543V1h6.36a.13.13 0 0 1 .133.133V14.62zM11.307 0H.693A.687.687 0 0 0 0 .68v14.719A.61.61 0 0 0 .617 16a.63.63 0 0 0 .315-.086l4.996-3.026a.14.14 0 0 1 .144 0l4.996 3.026a.628.628 0 0 0 .315.086.61.61 0 0 0 .617-.602V.679C12 .306 11.69 0 11.307 0z"></path>
+				          </svg>
+				          <div class="addToWishlist-base-wishlistText">Add More From Wishlist</div>
+				          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" class="addToWishlist-base-wishlistChevron">
+				            <path fill-rule="evenodd" d="M6.797 5.529a.824.824 0 0 0-.042-.036L1.19.193a.724.724 0 0 0-.986 0 .643.643 0 0 0 0 .94L5.316 6 .203 10.868a.643.643 0 0 0 0 .938.724.724 0 0 0 .986 0l5.566-5.299a.644.644 0 0 0 .041-.978"></path>
+				          </svg>
+				        </div>
+				      </div>
+				    </a>
+				  </div>
+				  <div class="desktop-base-right">
+				    <div class="priceBlock-base-container">
+				      <div class="priceBlock-base-priceHeader" th:text="${'PRICE DETAILS (' + cartItems.size + ' Item' + (cartItems.size > 1 ? 's' : '') + ')'}"></div>
+				      <div class="priceBreakUp-base-orderSummary" id="priceBlock">
+				        <div class="priceDetail-base-row ">
+				        	<span>Total MRP</span>
+				        	<span class="priceDetail-base-value" th:text="${'₹' + totalPrice}"></span>
+				        </div>
+				        <div class="priceDetail-base-row ">
+				        	<span>Discount on MRP</span>
+				        	<span class="priceDetail-base-value priceDetail-base-discount" th:text="${'-₹' + (totalPrice - discountedPrice)}"></span>
+				        </div>
+				        <div class="priceDetail-base-row ">
+				        	<span>Shipping Fee</span>
+				        	<span class="priceDetail-base-value">
+				        		<span class="priceDetail-base-striked priceDetail-base-spaceRight">
+				        			<span>₹79</span>
+				        		</span>
+				        		<span class="priceDetail-base-discount">FREE</span>
+				        	</span>
+				        </div>
+				        <div class="priceDetail-base-total ">
+				        	<span>Total Amount</span>
+				        	<span class="priceDetail-base-value priceDetail-base-redesignRupeeTotalIcon" th:text="${'₹' + discountedPrice}"></span>
+				        </div>
+				      </div>
+				    </div>
+				    <div>
+				      <button width="100%" letterspacing="1px" font-weight="bold" role="button" class="css-ibwr57 address-btn">
+				        <div class="css-xjhrni">SELECT ADDRESS</div>
+				      </button>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			
+			<div th:if="${cartItems.empty}" class="wishlistEmpty-container">
+				<div class="wishlistEmpty-heading">YOUR CART IS EMPTY</div>
+				<div class="wishlistEmpty-info">Add items that you like to your Cart.</div>
+			
+			</div>
+		</div>
+		<div th:replace="~{footer :: client_default_footer}"></div>
+	</body>
+</html>

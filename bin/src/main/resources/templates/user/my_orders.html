@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   	<head>
+   		<title>My Orders | ShipShop</title>
+    	<head th:replace="~{head :: main}" ></head>
+	</head>
+	<body>
+		<div sec:authorize="!isAuthenticated()" th:replace="~{header :: client_default_header_guest}"></div>
+		<div sec:authorize="hasAnyRole('USER')" th:replace="~{header :: client_default_header}"></div>
+		<div sec:authorize="hasAnyRole('ADMIN')" th:replace="~{header :: client_default_header_admin}"></div>
+		<!-- HEADER -->
+		 <div class="container2">
+	  		<div class="wrapper">
+				<h2>View All your orders</h2>
+				
+				<div th:if="${!orderItems.empty}" style="padding:45px;">
+					<div class="desktop-base-cartLayout">
+					  <div class=>
+					    <div id="orderItemsList">
+					      <div class="itemContainer-base-itemMargin" th:each="order : ${orderItems}" th:id="${order.orderId}">
+					        <div>
+					          <div class="item-base-item">
+					            <div></div>
+					            <div class="itemContainer-base-item ">
+					              <div class="itemContainer-base-itemLeft">
+					                <a th:href="${'/order/' + order.orderId}">
+					                  <div class="" style="height: 148px; width: 111px;">
+					                    <picture class="image-base-imgResponsive" style="width: 100%;">
+								            <div th:if="${order.orderItems[0].product.productImages.size() > 0}" class="product-preview" th:each="image : ${order.orderItems[0].product.productImages}">
+												<source th:srcset="${image.path}" type="image/webp">
+												<img th:src="${image.path}" class="image-base-imgResponsive" alt="image" style="width: 100%;">
+											</div>
+											
+											<div th:if="${order.orderItems[0].product.productImages.size() == 0}" class="product-preview">
+												<source srcset="/img/no-image.jpg" type="image/webp">
+												<img src="/img/no-image.jpg" class="image-base-imgResponsive" alt="image" style="width: 100%; height:100%">
+											</div>
+								          </picture>
+					                  </div>
+					                </a>
+					              </div>
+					              <div class="itemContainer-base-itemRight">
+					                <div class="itemContainer-base-details">
+					                  <div>
+					                    <div class="itemContainer-base-brand" th:text="${'Order Date: ' + order.orderDate}"></div>
+					                    <a class="itemContainer-base-itemLink" th:href="${'/order/' + order.orderId}" th:text="${order.orderItems[0].product.productName}"></a>
+					                  </div>
+					                  <div class="itemComponents-base-sellerContainer">
+					                    <div class="itemComponents-base-sellerData" th:text="${'Sold by: ' + order.orderItems[0].product.brand.name}">Seller name</div>
+					                  </div>
+					                  <div class="itemContainer-base-sizeAndQtyContainer">
+					                    <div class="itemContainer-base-sizeAndQty">
+					                      <div class="itemComponents-base-quantity">
+					                        <!-- <span class="" th:text="${'Qty: ' + quantity}"></span> -->
+					                      </div>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+					              <div>
+					                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="itemContainer-base-closeIcon">
+					                  <path fill="#000" fill-rule="evenodd" d="M9.031 8l6.756-6.756a.731.731 0 0 0 0-1.031.732.732 0 0 0-1.031 0L8 6.969 1.244.213a.732.732 0 0 0-1.031 0 .731.731 0 0 0 0 1.03L6.969 8 .213 14.756a.731.731 0 0 0 0 1.031.732.732 0 0 0 1.031 0L8 9.031l6.756 6.756a.732.732 0 0 0 1.031 0 .731.731 0 0 0 0-1.03L9.031 8z"></path>
+					                </svg>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+				
+				<div th:if="${orderItems.empty}" class="wishlistEmpty-container">
+					<div class="wishlistEmpty-heading">YOU HAVE NOT ORDERED ANYTHING YET</div>
+					<div class="wishlistEmpty-info">Order .</div>
+				
+				</div>
+			</div>
+		</div>
+		
+		
+
+	</body>
+</html>

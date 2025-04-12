@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Seller Dashboard | ShipShop</title>
+   	<head th:replace="~{head :: main}" ></head>
+</head>
+<body style="margin: 12rem 0 0 0">
+	<div sec:authorize="hasAnyRole('SELLER')" th:replace="~{header :: client_default_header_seller}"></div>
+	<!-- HEADER -->
+	 <div class="container2 wrapper">
+		<h2>Welcome to your home page</h2>
+	</div>
+
+</body>
+</html>
