@@ -1,3 +1,0 @@
-1000;Redmi 12C;14999;45;1;Redmi 12C (Mint Green, 4GB RAM, 128GB Storage)
-1001;Samsung Galaxy M13;14999;27;1;Samsung Galaxy M13 (Aqua Green, 4GB, 64GB Storage) | 6000mAh Battery | Upto 8GB RAM with RAM Plus
-1002;Apple iPhone 15;79900;0;1;Apple iPhone 15 (128 GB) - Black
